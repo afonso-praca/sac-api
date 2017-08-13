@@ -50,9 +50,6 @@ module.exports = {
   getAllTickets: function (req, res) {
     getAllTickets(req, res);
   },
-  getTicket: function (req, res) {
-
-  },
   deleteTicket: function (req, res) {
     deleteTicket(req, res);
   },
