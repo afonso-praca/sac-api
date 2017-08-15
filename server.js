@@ -7,6 +7,16 @@ var app = express();
 // parse application/json
 app.use(bodyParser.json());
 
+// security prevention
+app.disable("x-powered-by");
+
+// enables cors
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/ticket_system');
 
@@ -19,7 +29,7 @@ db.once('open', function() {
 });
 
 var startApp = function (app) {
-  app.listen(3000, function () {
-    console.log("Server is running on port 3000");
+  app.listen(8080, function () {
+    console.log("Server is running on port 8080");
   });
 };
