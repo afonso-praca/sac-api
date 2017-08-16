@@ -7,6 +7,9 @@ function startRoutes(app) {
   app.post('/ticket', function(req, res){
     ticketController.createTicket(req, res);
   });
+  app.get('/ticket/:id', function(req, res){
+    ticketController.getTicket(req, res);
+  });
   app.delete('/ticket/:id', function(req, res){
     ticketController.deleteTicket(req, res);
   });

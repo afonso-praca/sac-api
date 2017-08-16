@@ -20,7 +20,18 @@ var getAllTickets = function (req, res) {
   Ticket.find(function (err, tickets) {
     if (err) return console.error(err);
     res.send(tickets);
-  })
+  });
+};
+
+var getTicket = function (req, res) {
+  Ticket.find({ _id: req.params.id }, function (err, ticket){
+    if (!err && ticket && ticket.length) {
+      res.send(ticket[0]);
+    } else {
+      console.log(err);
+      return res.send("no ticket found");
+    }
+  });
 };
 
 var deleteTicket = function (req, res) {
@@ -52,6 +63,9 @@ module.exports = {
   },
   deleteTicket: function (req, res) {
     deleteTicket(req, res);
+  },
+  getTicket: function (req, res) {
+    getTicket(req, res);
   },
   createTicket: function (req, res) {
     createTicket(req, res);
