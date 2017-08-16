@@ -16,7 +16,7 @@ var createTicket = function (req, res) {
 };
 
 var updateTicket = function (req, res) {
-  var query = {'_id': req.body._id};
+  var query = {'_id': req.body.id};
   Ticket.findOneAndUpdate(query, req.body, {upsert:false}, function(err){
     if (err) return res.send(500, { error: err });
     return res.status(200).end();
