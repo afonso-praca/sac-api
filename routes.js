@@ -13,6 +13,9 @@ function startRoutes(app) {
   app.delete('/ticket/:id', function(req, res){
     ticketController.deleteTicket(req, res);
   });
+  app.put('/ticket/:id', function(req, res){
+    ticketController.updateTicket(req, res);
+  });
 }
 
 module.exports = {

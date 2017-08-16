@@ -4,22 +4,29 @@ var Ticket = mongoose.model("Ticket");
 
 var createTicket = function (req, res) {
   var ticket = new Ticket(req.body);
-  console.log(ticket);
   ticket.save(function (err) {
     if (!err) {
       console.log("created");
       return res.status(201).jsonp(ticket);
     } else {
       console.log(err);
-      return res.status(500);
+      return res.status(500).end();
     }
+  });
+};
+
+var updateTicket = function (req, res) {
+  var query = {'_id': req.body._id};
+  Ticket.findOneAndUpdate(query, req.body, {upsert:false}, function(err){
+    if (err) return res.send(500, { error: err });
+    return res.status(200).end();
   });
 };
 
 var getAllTickets = function (req, res) {
   Ticket.find(function (err, tickets) {
     if (err) return console.error(err);
-    res.send(tickets);
+    return res.send(tickets);
   });
 };
 
@@ -46,7 +53,7 @@ var deleteTicket = function (req, res) {
             return res.send("removed");
           } else {
             console.log(err);
-            return res.status(500);
+            return res.status(500).end();
           }
         });
       } else {
@@ -69,5 +76,8 @@ module.exports = {
   },
   createTicket: function (req, res) {
     createTicket(req, res);
+  },
+  updateTicket: function (req, res) {
+    updateTicket(req, res);
   }
 };
