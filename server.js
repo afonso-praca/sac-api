@@ -1,16 +1,17 @@
 var express = require('express');
-var routes = require('./routes');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+var routes = require('./routes');
 
 var app = express();
 
-// parse application/json
+// PARSE APPLICATION/JSON
 app.use(bodyParser.json());
 
-// security prevention
+// SECURITY PREVENTION
 app.disable("x-powered-by");
 
-// enables cors
+// ENABLE CORS
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
@@ -18,9 +19,8 @@ app.use(function(req, res, next) {
   next();
 });
 
-var mongoose = require('mongoose');
+// CONNECT WITH MONGO DB
 mongoose.connect('mongodb://localhost/ticket_system');
-
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
