@@ -6,11 +6,10 @@ var createTicket = function (req, res) {
   var ticket = new Ticket(req.body);
   ticket.save(function (err) {
     if (!err) {
-      console.log("created");
       return res.status(201).jsonp(ticket);
     } else {
       console.log(err);
-      return res.status(500).end();
+      return res.status(500).send(err);
     }
   });
 };
@@ -18,7 +17,7 @@ var createTicket = function (req, res) {
 var updateTicket = function (req, res) {
   var query = {'_id': req.body.id};
   Ticket.findOneAndUpdate(query, req.body, {upsert:false}, function(err){
-    if (err) return res.send(500, { error: err });
+    if (err) return res.send(500).send(err);
     return res.status(200).end();
   });
 };
@@ -35,7 +34,6 @@ var getTicket = function (req, res) {
     if (!err && ticket && ticket.length) {
       res.send(ticket[0]);
     } else {
-      console.log(err);
       return res.send("no ticket found");
     }
   });
@@ -49,15 +47,12 @@ var deleteTicket = function (req, res) {
       if (ticket !== null) {
         return ticket.remove(function (err) {
           if (!err) {
-            console.log("removed");
             return res.send("removed");
           } else {
-            console.log(err);
-            return res.status(500).end();
+            return res.status(500).send(err);
           }
         });
       } else {
-        console.log(err);
         return res.status(404).send("no ticket found");
       }
     }
